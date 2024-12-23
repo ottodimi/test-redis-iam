@@ -1,5 +1,5 @@
 import assert from "assert";
-import { Cluster } from "ioredis";
+import { Cluster, Redis } from "ioredis";
 import { getPassword } from "./get-password.mjs";
 
 const [url, clusterName, username] = process.argv.slice(2);
@@ -14,8 +14,12 @@ const password = await getPassword({
   serverless: false,
 });
 
+Redis.prototype.auth = function () {
+  return this.sendCommand("AUTH", [username, password]);
+};
+
 const cluster = new Cluster([url], {
-  redisOptions: { username: username, password, tls: {} },
+  redisOptions: { username, password: "stub", tls: {} },
   dnsLookup: (address, callback) => callback(null, address),
 });
 

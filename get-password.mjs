@@ -9,6 +9,16 @@ import {
   NODE_REGION_CONFIG_OPTIONS,
 } from "@smithy/config-resolver";
 
+const signer = new SignatureV4({
+  service: "elasticache",
+  sha256: Hash.bind(null, "sha256"),
+  credentials: fromNodeProviderChain(),
+  region: loadConfig(
+    NODE_REGION_CONFIG_OPTIONS,
+    NODE_REGION_CONFIG_FILE_OPTIONS
+  ),
+});
+
 export const getPassword = async ({ clusterName, username, serverless }) => {
   const request = new HttpRequest({
     protocol: "https:",
@@ -20,16 +30,6 @@ export const getPassword = async ({ clusterName, username, serverless }) => {
       User: username,
       ...(serverless && { ResourceType: "ServerlessCache" }),
     },
-  });
-
-  const signer = new SignatureV4({
-    service: "elasticache",
-    sha256: Hash.bind(null, "sha256"),
-    credentials: fromNodeProviderChain(),
-    region: loadConfig(
-      NODE_REGION_CONFIG_OPTIONS,
-      NODE_REGION_CONFIG_FILE_OPTIONS
-    ),
   });
 
   const presigned = await signer.presign(request, {
