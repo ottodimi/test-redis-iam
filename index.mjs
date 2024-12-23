@@ -3,6 +3,7 @@ import { HttpRequest } from "@smithy/protocol-http";
 import { Cluster } from "ioredis";
 import { SignatureV4 } from "@smithy/signature-v4";
 import { fromNodeProviderChain } from "@aws-sdk/credential-providers";
+import { loadConfig } from "@smithy/node-config-provider";
 import {
   NODE_REGION_CONFIG_FILE_OPTIONS,
   NODE_REGION_CONFIG_OPTIONS,
