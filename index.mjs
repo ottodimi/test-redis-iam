@@ -8,16 +8,16 @@ assert(url);
 assert(clusterName);
 assert(username);
 
-const password = await getPassword({
-  clusterName,
-  username,
-  serverless: false,
-});
-
 const auth = Redis.prototype.auth;
 
-Redis.prototype.auth = function () {
-  return auth.call(this, username, password);
+Redis.prototype.auth = async function () {
+  const password = await getPassword({
+    clusterName,
+    username,
+    serverless: false,
+  });
+
+  return await auth.call(this, username, password);
 };
 
 const cluster = new Cluster([url], {
