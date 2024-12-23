@@ -14,8 +14,10 @@ const password = await getPassword({
   serverless: false,
 });
 
+const auth = Redis.prototype.auth;
+
 Redis.prototype.auth = function () {
-  return this.sendCommand("AUTH", [username, password]);
+  return auth.call(this, username, password);
 };
 
 const cluster = new Cluster([url], {
