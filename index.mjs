@@ -16,7 +16,7 @@ const password = await getPassword({
 
 const auth = Redis.prototype.auth;
 
-Redis.prototype.auth = function () {
+Redis.prototype.auth = async function () {
   return auth.call(this, username, password);
 };
 
