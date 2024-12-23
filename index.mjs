@@ -34,7 +34,7 @@ const getPassword = async ({ cacheName, username }) => {
     expiresIn: 900,
   });
 
-  return formatUrl(presigned).replace("https://", "");
+  return formatUrl(presigned).slice("https://".length);
 };
 
 const [url, cacheName, username] = process.argv.slice(2);
