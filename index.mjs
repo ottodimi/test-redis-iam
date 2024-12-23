@@ -44,6 +44,7 @@ assert(cacheName);
 assert(username);
 
 const password = await getPassword({ cacheName, username });
+console.log(password);
 
 const cluster = new Cluster([url], {
   redisOptions: { username, password, tls: {} },
