@@ -1,4 +1,4 @@
-import { RedisCluster } from "./redis-cluster.mjs";
+import { RedisCluster } from "ioredis";
 
 const [url, username, password] = process.argv.slice(2);
 
